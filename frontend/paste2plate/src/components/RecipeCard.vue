@@ -7,9 +7,19 @@
       />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">Köttförsås</h2>
+      <h2 class="card-title">{{recipe.title}}</h2>
       <p>wapdjawdoandoandalwdnaklwdn</p>
       <div>tag1</div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { Recipe } from '@/types/recipe';
+import { defineProps } from 'vue';
+
+defineProps<{
+  recipe: Recipe;
+}>();
+
+</script>
