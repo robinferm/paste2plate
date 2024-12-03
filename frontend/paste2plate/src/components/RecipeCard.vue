@@ -1,25 +1,19 @@
 <template>
   <div class="card lg:card-side bg-base-100 shadow-xl">
     <figure>
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp"
-        alt="Album"
-      />
+      <img :src="recipe.image" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{recipe.title}}</h2>
-      <p>wapdjawdoandoandalwdnaklwdn</p>
+      <h2 class="card-title">{{ recipe.title }}</h2>
       <div>tag1</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Recipe } from '@/types/recipe';
-import { defineProps } from 'vue';
+import type { Recipe } from '@/types/recipe'
 
 defineProps<{
-  recipe: Recipe;
-}>();
-
+  recipe: Recipe
+}>()
 </script>

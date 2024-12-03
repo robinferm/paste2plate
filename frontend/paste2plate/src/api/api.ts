@@ -5,3 +5,9 @@ export const getRecipes = async (): Promise<Recipe[]> => {
   const recipes: Recipe[] = await res.json()
   return recipes
 }
+
+export const getRecipe = async (id: number): Promise<Recipe> => {
+  const res = await fetch(`http://localhost:3000/recipes/${id}`)
+  const recipe: Recipe = await res.json()
+  return recipe
+}

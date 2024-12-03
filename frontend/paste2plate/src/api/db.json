@@ -2,17 +2,38 @@
   "recipes": [
     {
       "id": "1",
-      "title": "title",
-      "description": "description",
-      "ingredients": ["asd", "irr"],
-      "instructions": ["shumla en asd", "irra en irr"]
+      "title": "Flygande Jacob med halloumi",
+      "ingredients": [
+        { "amount": "450 g", "name": "white beans (in tomato sauce)" },
+        { "amount": "400 g", "name": "kidney beans" }
+      ],
+      "instructions": ["shumla en asd", "irra en irr"],
+      "image": "https://img.koket.se/standard-giant/flygande-jacob-med-halloumi.jpg.webp"
     },
     {
       "id": "2",
-      "title": "title2",
-      "description": "description",
-      "ingredients": ["asd", "irr"],
-      "instructions": ["shumla en asd", "irra en irr"]
+      "title": "Chili con Carne",
+      "ingredients": [
+        { "amount": "450 g", "name": "white beans (in tomato sauce)" },
+        { "amount": "400 g", "name": "kidney beans" },
+        { "amount": "2", "name": "yellow onions, chopped" },
+        { "amount": "1", "name": "green bell pepper, chopped" },
+        { "amount": "500 g", "name": "ground meat" },
+        { "amount": "2 cloves", "name": "garlic, pressed" },
+        { "amount": "1 tsp", "name": "chili powder" },
+        { "amount": "800 g", "name": "crushed tomatoes" },
+        { "name": "salt" },
+        { "name": "pepper" },
+        { "name": "oil" },
+        { "name": "chili powder" },
+        { "name": "paprika powder" }
+      ],
+      "instructions": [
+        "Sauté the onion and bell pepper in oil in a pot.",
+        "Brown the ground meat, crumble it, and add to the pot. Season with spices.",
+        "Add all ingredients except the beans, and cook for about 20-30 minutes. Add the beans in the last 10 minutes, taste, and adjust seasoning as needed."
+      ],
+      "image": "https://img.koket.se/standard-giant/chili-con-carne-8.jpg.webp"
     }
   ]
 }
