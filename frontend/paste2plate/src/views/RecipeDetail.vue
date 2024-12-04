@@ -2,11 +2,19 @@
   <button class="btn" @click="goBack">back</button>
   <div v-if="recipe">
     <h2>{{ recipe.title }}</h2>
+    <figure>
+      <img :src="recipe.image" />
+    </figure>
     <ul>
       <li v-for="ingredient in recipe.ingredients" :key="ingredient.name">
         {{ ingredient.name }} - {{ ingredient.amount }}
       </li>
     </ul>
+    <ol>
+      <li v-for="instruction in recipe.instructions" :key="instruction">
+        {{ instruction }}
+      </li>
+    </ol>
   </div>
 </template>
 
