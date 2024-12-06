@@ -36,7 +36,6 @@ import { addRecipe } from '@/api/api'
 const recipes = ref<Recipe[]>([])
 onMounted(async () => {
   const fetchedRecipes = await getRecipes()
-  console.log(fetchedRecipes)
   recipes.value = fetchedRecipes
 })
 
@@ -47,27 +46,38 @@ const url = ref<string>('')
 
 const submitRecipe = async () => {
   if (url.value) {
-    const newRecipe: Recipe = {
-      id: (recipes.value.length + 1).toString(),
-      title: 'Tomato Soup',
-      ingredients: [
-        { name: 'Tomatoes', amount: '500 g' },
-        { name: 'Onion', amount: '1' },
-        { name: 'Garlic', amount: '2 cloves' },
-      ],
-      instructions: [
-        'Chop the onions and garlic.',
-        'Saute them in a pot.',
-        'Add tomatoes and cook for 20 minutes.',
-        'Blend and serve.',
-      ],
-      image: 'https://img.koket.se/standard-giant/snabb-pasta-och-tomatsas-med-burrata.jpg.webp',
-    }
-    console.log('sumitted url: ', url.value)
+    const res = await fetch('http://localhost:5000/recipe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url: url.value }),
+    })
+
+    const newRecipe: Recipe = await res.json()
+
+    // const newRecipe: Recipe = {
+    //   id: (recipes.value.length + 1).toString(),
+    //   title: 'Tomato Soup',
+    //   ingredients: [
+    //     { name: 'Tomatoes', amount: '500 g' },
+    //     { name: 'Onion', amount: '1' },
+    //     { name: 'Garlic', amount: '2 cloves' },
+    //   ],
+    //   instructions: [
+    //     'Chop the onions and garlic.',
+    //     'Saute them in a pot.',
+    //     'Add tomatoes and cook for 20 minutes.',
+    //     'Blend and serve.',
+    //   ],
+    //   image: 'https://img.koket.se/standard-giant/snabb-pasta-och-tomatsas-med-burrata.jpg.webp',
+    // }
+
+    newRecipe.id = (recipes.value.length + 1).toString()
+
     recipes.value.push(newRecipe)
     const added = await addRecipe(newRecipe)
-    console.log(added)
-    openRecipe(added.id)
+    openRecipe(Number(added.id))
   }
 }
 </script>

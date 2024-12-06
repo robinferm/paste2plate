@@ -3,7 +3,7 @@
   <div v-if="recipe">
     <h2>{{ recipe.title }}</h2>
     <figure>
-      <img :src="recipe.image" />
+      <img :src="recipe.imageurl" />
     </figure>
     <ul>
       <li v-for="ingredient in recipe.ingredients" :key="ingredient.name">
@@ -11,7 +11,7 @@
       </li>
     </ul>
     <ol>
-      <li v-for="instruction in recipe.instructions" :key="instruction">
+      <li v-for="instruction in recipe.steps" :key="instruction">
         {{ instruction }}
       </li>
     </ol>

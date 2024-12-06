@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/chromedp/chromedp"
 	"github.com/gocolly/colly"
@@ -17,7 +18,7 @@ func main() {
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/recipe", handleRecipe)
 	http.HandleFunc("/capture", handleCapture)
-	http.ListenAndServe(":5000", nil)
+	http.ListenAndServe("127.0.0.1:5000", nil)
 }
 
 func handleHome(w http.ResponseWriter, req *http.Request) {
@@ -73,10 +74,20 @@ func captureScreenshot(url string) error {
 	return nil
 }
 
+type ingredient struct {
+	Name   string `json:"name"`
+	Amount string `json:"amount"`
+}
+
 type recipe struct {
-	Title       string
-	Ingredients []string
-	Steps       []string
+	Title       string       `json:"title"`
+	Ingredients []ingredient `json:"ingredients"`
+	Steps       []string     `json:"steps"`
+	ImageUrl    string       `json:"imageurl"`
+}
+
+type RequestBody struct {
+	URL string `json:"url"` // The field name should match the key in the JSON body
 }
 
 func handleRecipe(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +103,14 @@ func handleRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	recipeUrl := string(body)
+	var requestBody RequestBody
+	err = json.Unmarshal(body, &requestBody)
+	if err != nil {
+		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		return
+	}
+
+	recipeUrl := string(requestBody.URL)
 
 	recipe := scrape(recipeUrl)
 
@@ -116,11 +134,24 @@ func scrape(url string) recipe {
 	})
 
 	c.OnHTML("div.ingredients-list-group__card", func(e *colly.HTMLElement) {
-		recipe.Ingredients = append(recipe.Ingredients, e.Text)
+		amount := e.ChildText(".ingredients-list-group__card__qty")
+		name := e.Text
+		name = strings.Replace(name, amount, "", 1)
+		name = strings.TrimSpace(name)
+
+		ingredient := ingredient{
+			Name:   name,
+			Amount: amount,
+		}
+		recipe.Ingredients = append(recipe.Ingredients, ingredient)
 	})
 
 	c.OnHTML("div.cooking-steps-card", func(e *colly.HTMLElement) {
 		recipe.Steps = append(recipe.Steps, e.Text)
+	})
+
+	c.OnHTML("img.recipe-header__image", func(e *colly.HTMLElement) {
+		recipe.ImageUrl = e.Attr("src")
 	})
 
 	err := c.Visit(url)
