@@ -19,7 +19,7 @@
         v-for="recipe in recipes"
         :key="recipe.id"
         :recipe="recipe"
-        @click="openRecipe(recipe.id)"
+        @click="openRecipe(Number(recipe.id))"
       ></RecipeCard>
     </div>
   </main>

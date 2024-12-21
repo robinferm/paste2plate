@@ -1,0 +1,15 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend/paste2plate
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"

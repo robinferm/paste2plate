@@ -18,7 +18,7 @@ func main() {
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/recipe", handleRecipe)
 	http.HandleFunc("/capture", handleCapture)
-	http.ListenAndServe("127.0.0.1:5000", nil)
+	http.ListenAndServe(":5000", nil)
 }
 
 func handleHome(w http.ResponseWriter, req *http.Request) {
