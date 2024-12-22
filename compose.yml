@@ -19,6 +19,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+      - "8090:8090"
+    volumes:
+      - ./backend/pb_data:/pb_data
 
   reverse-proxy:
     image: traefik:v3.2

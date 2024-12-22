@@ -10,4 +10,4 @@ COPY *.go ./
 
 RUN go build -o /main
 
-CMD ["/main"]
+CMD ["/main", "serve", "--http=0.0.0.0:8090"]
