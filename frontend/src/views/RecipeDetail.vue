@@ -28,7 +28,7 @@ const props = defineProps<{ id: string }>()
 const recipe = ref<Recipe | null>(null)
 
 const fetchRecipe = async (id: string) => {
-  recipe.value = await getRecipe(Number(id))
+  recipe.value = await getRecipe(id)
   console.log(recipe.value)
 }
 

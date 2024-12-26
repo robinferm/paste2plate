@@ -12,11 +12,8 @@ import (
 
 	"github.com/chromedp/chromedp"
 	"github.com/gocolly/colly"
+	"github.com/pocketbase/pocketbase/core"
 )
-
-func handleHome(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "home\n")
-}
 
 func handleCapture(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodPost {
@@ -63,38 +60,24 @@ func captureScreenshot(url string) error {
 	return nil
 }
 
-func handleRecipe(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-
-	body, err := io.ReadAll(r.Body)
+func handleRecipe(e *core.RequestEvent) error {
+	body, err := io.ReadAll(e.Request.Body)
 	if err != nil {
-		http.Error(w, "Unable to read request body", http.StatusBadRequest)
-		return
+		return e.JSON(http.StatusBadRequest, "Unable to read request body")
 	}
-	defer r.Body.Close()
+	defer e.Request.Body.Close()
 
 	var requestBody requestBody
 	err = json.Unmarshal(body, &requestBody)
 	if err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
-		return
+		return e.JSON(http.StatusBadRequest, "Invalid JSON format")
 	}
 
-	recipeUrl := string(requestBody.URL)
+	recipeUrl := requestBody.URL
 
 	recipe := scrape(recipeUrl)
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
-	err = json.NewEncoder(w).Encode(recipe)
-	if err != nil {
-		http.Error(w, "Error encoding response", http.StatusInternalServerError)
-		return
-	}
+	return e.JSON(http.StatusOK, recipe)
 }
 
 func scrape(url string) recipe {

@@ -4,6 +4,7 @@ export interface Recipe {
   ingredients: ingredient[]
   steps: string[]
   imageurl: string
+  user: string
 }
 
 export interface ingredient {

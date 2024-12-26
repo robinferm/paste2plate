@@ -1,32 +1,30 @@
 import type { Recipe } from '@/types/recipe'
+import pb from '@/services/pocketbase'
+import { useAuthStore } from '@/stores/auth'
 
 export const getRecipes = async (): Promise<Recipe[]> => {
-  const res = await fetch('http://localhost:3000/recipes')
-  const recipes: Recipe[] = await res.json()
+  const recipes = await pb.collection('recipes').getFullList<Recipe>()
+  console.log('recipe', recipes[0])
   return recipes
 }
 
-export const getRecipe = async (id: number): Promise<Recipe> => {
-  const res = await fetch(`http://localhost:3000/recipes/${id}`)
-  const recipe: Recipe = await res.json()
+export const getRecipe = async (id: string): Promise<Recipe> => {
+  const recipe = await pb.collection<Recipe>('recipes').getOne(id)
   return recipe
 }
 
-export const deleteRecipe = async (id: number) => {
-  await fetch(`http://localhost:3000/recipes/${id}`, {
-    method: 'DELETE',
-  })
+export const deleteRecipe = async (id: string) => {
+  await pb.collection('recipes').delete(id)
 }
 
 export const addRecipe = async (recipe: Recipe): Promise<Recipe> => {
-  const res = await fetch('http://localhost:3000/recipes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(recipe),
-  })
+  const authStore = useAuthStore()
 
-  const addedRecipe: Recipe = await res.json()
+  if (!authStore.user?.id) {
+    throw new Error("Can't add recipe, user is not logged in")
+  }
+  recipe.user = authStore.user?.id
+
+  const addedRecipe = await pb.collection('recipes').create<Recipe>(recipe)
   return addedRecipe
 }
