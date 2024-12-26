@@ -43,27 +43,11 @@ const openRecipe = (id: string) => {
 const url = ref<string>('')
 
 const submitRecipe = async () => {
-  if (url.value) {
-    const storage = localStorage.getItem('pocketbase_auth')
-    if (storage) {
-      const json = JSON.parse(storage)
-      const token = json.token
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/recipe', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: url.value }),
-      })
-
-      const newRecipe: Recipe = await res.json()
-
-      recipes.value.push(newRecipe)
-      const added = await addRecipe(newRecipe)
-      console.log('added', added)
-      openRecipe(added.id)
-    }
+  if (!url.value) {
+    throw new Error('Empty input url')
   }
+  const added = await addRecipe(url.value)
+  recipes.value.push(added)
+  openRecipe(added.id)
 }
 </script>

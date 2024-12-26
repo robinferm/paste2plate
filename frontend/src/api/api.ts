@@ -4,7 +4,6 @@ import { useAuthStore } from '@/stores/auth'
 
 export const getRecipes = async (): Promise<Recipe[]> => {
   const recipes = await pb.collection('recipes').getFullList<Recipe>()
-  console.log('recipe', recipes[0])
   return recipes
 }
 
@@ -17,12 +16,23 @@ export const deleteRecipe = async (id: string) => {
   await pb.collection('recipes').delete(id)
 }
 
-export const addRecipe = async (recipe: Recipe): Promise<Recipe> => {
+export const addRecipe = async (url: string): Promise<Recipe> => {
   const authStore = useAuthStore()
 
   if (!authStore.user?.id) {
     throw new Error("Can't add recipe, user is not logged in")
   }
+
+  const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/recipe', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${authStore.token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ url: url }),
+  })
+
+  const recipe: Recipe = await res.json()
   recipe.user = authStore.user?.id
 
   const addedRecipe = await pb.collection('recipes').create<Recipe>(recipe)
