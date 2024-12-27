@@ -12,7 +12,7 @@ func main() {
 	app := pocketbase.New()
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		se.Router.POST("/recipe", handleRecipe).Bind(apis.RequireAuth())
+		se.Router.POST("/api/recipe", handleRecipe).Bind(apis.RequireAuth())
 		return se.Next()
 	})
 
