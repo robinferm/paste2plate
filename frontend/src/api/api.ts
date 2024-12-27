@@ -23,7 +23,7 @@ export const addRecipe = async (url: string): Promise<Recipe> => {
     throw new Error("Can't add recipe, user is not logged in")
   }
 
-  const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/recipe', {
+  const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/recipe', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${authStore.token}`,
