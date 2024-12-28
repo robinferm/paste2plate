@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import pb from '@/services/pocketbase'
+import { useStorage } from '@vueuse/core'
 import type { RecordModel } from 'pocketbase'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null as RecordModel | null,
-    token: null as string | null,
+    user: useStorage('user', null as RecordModel | null),
+    token: useStorage('token', null as string | null),
   }),
   actions: {
     async loginWithGoogle() {
@@ -27,6 +28,14 @@ export const useAuthStore = defineStore('auth', {
       pb.authStore.clear()
       this.user = null
       this.token = null
+    },
+    isLoggedIn() {
+      return this.user !== null
+    },
+    async authRefresh() {
+      const authData = await pb.collection('users').authRefresh()
+      this.user = authData.record
+      this.token = pb.authStore.token
     },
   },
 })

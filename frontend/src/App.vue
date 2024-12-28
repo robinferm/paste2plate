@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { RouterView } from 'vue-router'
+import { onMounted } from 'vue'
 const authStore = useAuthStore()
 
 const loginWithGoogle = async () => {
@@ -11,6 +12,10 @@ const loginWithGoogle = async () => {
     console.error('Login failed:', err)
   }
 }
+
+onMounted(async () => {
+  await useAuthStore().authRefresh()
+})
 </script>
 
 <template>
