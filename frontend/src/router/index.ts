@@ -10,7 +10,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: RecipeList,
-      meta: { requiresAuth: true },
     },
     { path: '/recipe/:id', name: 'RecipeDetail', component: RecipeDetail, props: true },
   ],
