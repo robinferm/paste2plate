@@ -9,7 +9,7 @@ type recipe struct {
 	Title       string       `json:"title"`
 	Ingredients []ingredient `json:"ingredients"`
 	Steps       []string     `json:"steps"`
-	ImageUrl    string       `json:"imageurl"`
+	ImageUrl    string       `json:"imageUrl"`
 }
 
 type requestBody struct {
