@@ -1,9 +1,6 @@
 <template>
   <form id="recipeForm" class="space-y-4" @submit.prevent="submitRecipe">
     <label class="form-control w-full max-w-xs">
-      <div class="label">
-        <span class="label-text">Enter recipe URL</span>
-      </div>
       <input
         type="url"
         placeholder="Recipe URL"
@@ -11,6 +8,9 @@
         v-model="url"
         required
       />
+      <button class="btn btn-ghost absolute right-2" @onclick.prevent="submitRecipe">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
     </label>
   </form>
   <div class="grid lg:grid-cols-3 gap-4">

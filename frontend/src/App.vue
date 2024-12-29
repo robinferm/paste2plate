@@ -15,6 +15,18 @@ router.beforeEach(async (to) => {
 </script>
 
 <template>
+  <header class="relative flex items-center justify-center">
+    <button
+      class="btn btn-ghost absolute left-0"
+      v-if="
+        router.currentRoute.value.name !== 'Home' && router.currentRoute.value.name !== 'RecipeList'
+      "
+      @click="router.back"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div class="m-2">Paste2Plate</div>
+  </header>
   <main class="m-2">
     <RouterView />
   </main>

@@ -1,7 +1,7 @@
 <template>
   <div class="card lg:card-side bg-base-100 shadow-xl">
     <figure>
-      <img :src="recipe.imageurl" />
+      <img :src="recipe.imageUrl" />
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ recipe.title }}</h2>

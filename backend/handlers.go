@@ -107,7 +107,10 @@ func scrape(url string) recipe {
 	})
 
 	c.OnHTML("img.recipe-header__image", func(e *colly.HTMLElement) {
-		recipe.ImageUrl = e.Attr("src")
+		if recipe.ImageUrl == "" {
+			recipe.ImageUrl = e.Attr("src")
+			fmt.Println(recipe.ImageUrl)
+		}
 	})
 
 	err := c.Visit(url)

@@ -1,9 +1,8 @@
 <template>
-  <button class="btn" @click="goBack">back</button>
   <div v-if="recipe">
     <h2 class="text-2xl my-2">{{ recipe.title }}</h2>
     <figure>
-      <img :src="recipe.imageurl" />
+      <img :src="recipe.imageUrl" />
     </figure>
     <ul>
       <li class="columns-2" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
@@ -26,18 +25,13 @@
 import { getRecipe } from '@/api/api'
 import type { Recipe } from '@/types/recipe'
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const props = defineProps<{ id: string }>()
 const recipe = ref<Recipe | null>(null)
 
 const fetchRecipe = async (id: string) => {
   recipe.value = await getRecipe(id)
-}
-
-const router = useRouter()
-const goBack = () => {
-  router.back()
+  console.log(recipe.value)
 }
 
 onMounted(() => {

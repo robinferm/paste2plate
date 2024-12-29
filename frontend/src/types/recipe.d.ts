@@ -3,7 +3,7 @@ export interface Recipe {
   title: string
   ingredients: ingredient[]
   steps: string[]
-  imageurl: string
+  imageUrl: string
   user: string
 }
 

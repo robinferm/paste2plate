@@ -34,7 +34,8 @@ export const addRecipe = async (url: string): Promise<Recipe> => {
 
   const recipe: Recipe = await res.json()
   recipe.user = authStore.user?.id
-
+  console.log('adaoiwdjadw', recipe)
   const addedRecipe = await pb.collection('recipes').create<Recipe>(recipe)
+  console.log('added', addedRecipe)
   return addedRecipe
 }
