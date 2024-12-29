@@ -1,18 +1,22 @@
 <template>
   <button class="btn" @click="goBack">back</button>
   <div v-if="recipe">
-    <h2>{{ recipe.title }}</h2>
+    <h2 class="text-2xl my-2">{{ recipe.title }}</h2>
     <figure>
       <img :src="recipe.imageurl" />
     </figure>
     <ul>
-      <li v-for="ingredient in recipe.ingredients" :key="ingredient.name">
-        {{ ingredient.name }} - {{ ingredient.amount }}
+      <li class="columns-2" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
+        {{ ingredient.name }}
+        <div class="divider-horizontal"></div>
+        {{ ingredient.amount }}
       </li>
     </ul>
+    <div class="divider"></div>
     <ol>
       <li v-for="instruction in recipe.steps" :key="instruction">
         {{ instruction }}
+        <div class="divider"></div>
       </li>
     </ol>
   </div>

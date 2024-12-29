@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import pb from '@/services/pocketbase'
 import { useStorage } from '@vueuse/core'
 import type { RecordModel } from 'pocketbase'
+import router from '@/router'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -18,6 +19,7 @@ export const useAuthStore = defineStore('auth', {
         this.user = authData.record
         this.token = pb.authStore.token
 
+        router.push('/recipes')
         return authData
       } catch (err) {
         console.error('Google login failed:', err)

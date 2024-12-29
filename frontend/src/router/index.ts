@@ -8,10 +8,20 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
+      component: HomeView,
+    },
+    {
+      path: '/recipes',
+      name: 'RecipeList',
       component: RecipeList,
     },
-    { path: '/recipe/:id', name: 'RecipeDetail', component: RecipeDetail, props: true },
+    {
+      path: '/recipe/:id',
+      name: 'RecipeDetail',
+      component: RecipeDetail,
+      props: true,
+    },
   ],
 })
 

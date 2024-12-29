@@ -1,28 +1,26 @@
 <template>
-  <main>
-    <form id="recipeForm" class="space-y-4" @submit.prevent="submitRecipe">
-      <label class="form-control w-full max-w-xs">
-        <div class="label">
-          <span class="label-text">Enter recipe URL</span>
-        </div>
-        <input
-          type="url"
-          placeholder="Recipe URL"
-          class="input input-bordered w-full max-w-xs"
-          v-model="url"
-          required
-        />
-      </label>
-    </form>
-    <div class="grid lg:grid-cols-3 gap-4">
-      <RecipeCard
-        v-for="recipe in recipes"
-        :key="recipe.id"
-        :recipe="recipe"
-        @click="openRecipe(recipe.id)"
-      ></RecipeCard>
-    </div>
-  </main>
+  <form id="recipeForm" class="space-y-4" @submit.prevent="submitRecipe">
+    <label class="form-control w-full max-w-xs">
+      <div class="label">
+        <span class="label-text">Enter recipe URL</span>
+      </div>
+      <input
+        type="url"
+        placeholder="Recipe URL"
+        class="input input-bordered w-full max-w-xs"
+        v-model="url"
+        required
+      />
+    </label>
+  </form>
+  <div class="grid lg:grid-cols-3 gap-4">
+    <RecipeCard
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      :recipe="recipe"
+      @click="openRecipe(recipe.id)"
+    ></RecipeCard>
+  </div>
 </template>
 
 <script setup lang="ts">
