@@ -20,18 +20,13 @@ export default defineConfig(({ command, mode }) => {
           short_name: 'Paste2Plate',
           description: 'Paste2Plate',
           theme_color: '#ffffff',
-          // icons: [
-          //   {
-          //     src: '/icons/icon-192x192.png', // Path to your icon
-          //     sizes: '192x192',
-          //     type: 'image/png',
-          //   },
-          //   {
-          //     src: '/icons/icon-512x512.png', // Path to your icon
-          //     sizes: '512x512',
-          //     type: 'image/png',
-          //   },
-          // ],
+          icons: [
+            {
+              src: '/src/assets/logo.svg',
+              sizes: '192x192',
+              type: 'image/svg+xml',
+            },
+          ],
         },
       }),
     ],
