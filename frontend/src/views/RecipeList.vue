@@ -9,7 +9,7 @@
           v-model="url"
           required
         />
-        <button class="btn" @onclick.prevent="submitRecipe">Add</button>
+        <button class="btn">Add</button>
       </div>
     </label>
   </form>
@@ -20,6 +20,7 @@
       :key="recipe.id"
       :recipe="recipe"
       @click="openRecipe(recipe.id)"
+      @delete="deleteRecipe"
     ></RecipeCard>
   </div>
 </template>
@@ -27,15 +28,18 @@
 <script setup lang="ts">
 import RecipeCard from '@/components/RecipeCard.vue'
 import router from '@/router'
-import type { Recipe } from '@/types/recipe'
-import { ref, onMounted } from 'vue'
-import { addRecipe, getRecipes } from '@/api/api'
+import { ref, onMounted, computed } from 'vue'
+import { useRecipeStore } from '@/stores/recipe'
 
-const recipes = ref<Recipe[]>([])
+const recipeStore = useRecipeStore()
+const recipes = computed(() => recipeStore.recipes)
 onMounted(async () => {
-  const fetchedRecipes = await getRecipes()
-  recipes.value = fetchedRecipes
+  recipeStore.fetchRecipes()
 })
+
+const deleteRecipe = (id: string) => {
+  recipeStore.deleteRecipe(id)
+}
 const openRecipe = (id: string) => {
   router.push({ name: 'RecipeDetail', params: { id } })
 }
@@ -45,8 +49,7 @@ const submitRecipe = async () => {
   if (!url.value) {
     throw new Error('Empty input url')
   }
-  const added = await addRecipe(url.value)
-  recipes.value.push(added)
-  openRecipe(added.id)
+  const addedId = await recipeStore.addRecipe(url.value)
+  openRecipe(addedId)
 }
 </script>
