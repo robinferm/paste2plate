@@ -13,7 +13,7 @@ router.beforeEach(async (to) => {
     return { name: 'RecipeList' }
   }
 
-  if (!authStore.isLoggedIn()) {
+  if (!authStore.isLoggedIn() && to.name !== 'Home') {
     return { name: 'Home' }
   }
 })
