@@ -8,7 +8,12 @@ router.beforeEach(async (to) => {
   if (authStore.token) {
     await useAuthStore().authRefresh()
   }
-  if (!authStore.isLoggedIn() && to.name !== 'Home') {
+
+  if (authStore.isLoggedIn() && to.name === 'Home') {
+    return { name: 'RecipeList' }
+  }
+
+  if (!authStore.isLoggedIn()) {
     return { name: 'Home' }
   }
 })
