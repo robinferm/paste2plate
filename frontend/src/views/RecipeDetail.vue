@@ -4,6 +4,8 @@
     <figure>
       <img :src="recipe.imageUrl" />
     </figure>
+    <div class="divider"></div>
+    <h2 class="text-2xl mb-2">Ingredients</h2>
     <ul>
       <li class="columns-2" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
         {{ ingredient.name }}
@@ -12,10 +14,11 @@
       </li>
     </ul>
     <div class="divider"></div>
-    <ol>
-      <li v-for="instruction in recipe.steps" :key="instruction">
-        {{ instruction }}
-        <div class="divider"></div>
+    <h2 class="text-2xl mb-2">Steps</h2>
+    <ol class="flex flex-col gap-6">
+      <li class="flex gap-2" v-for="(instruction, index) in recipe.steps" :key="instruction">
+        <div>{{ index + 1 }}.</div>
+        <div>{{ instruction }}</div>
       </li>
     </ol>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card lg:card-side bg-base-100 shadow-xl">
+  <div class="card card-bordered shadow-xl">
     <figure>
       <img :src="recipe.imageUrl" />
     </figure>

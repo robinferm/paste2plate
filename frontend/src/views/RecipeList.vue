@@ -1,19 +1,20 @@
 <template>
   <form id="recipeForm" class="space-y-4" @submit.prevent="submitRecipe">
     <label class="form-control w-full max-w-xs">
-      <input
-        type="url"
-        placeholder="Recipe URL"
-        class="input input-bordered w-full max-w-xs"
-        v-model="url"
-        required
-      />
-      <button class="btn btn-ghost absolute right-2" @onclick.prevent="submitRecipe">
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
+      <div class="flex gap-1">
+        <input
+          type="url"
+          placeholder="Recipe URL"
+          class="input input-bordered w-full max-w-xs"
+          v-model="url"
+          required
+        />
+        <button class="btn" @onclick.prevent="submitRecipe">Add</button>
+      </div>
     </label>
   </form>
-  <div class="grid lg:grid-cols-3 gap-4">
+  <div class="divider"></div>
+  <div class="grid sm:grid-cols-3 gap-4">
     <RecipeCard
       v-for="recipe in recipes"
       :key="recipe.id"
