@@ -14,6 +14,9 @@ export const useAuthStore = defineStore('auth', {
       try {
         const authData = await pb.collection('users').authWithOAuth2({
           provider: 'google',
+          urlCallback: (url) => {
+            window.open(url, '_blank', '')
+          },
         })
 
         this.user = authData.record
