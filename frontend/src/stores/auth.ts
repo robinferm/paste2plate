@@ -14,9 +14,6 @@ export const useAuthStore = defineStore('auth', {
       try {
         const authData = await pb.collection('users').authWithOAuth2({
           provider: 'google',
-          urlCallback: (url) => {
-            window.open(url, '_blank', '')
-          },
         })
 
         this.user = authData.record
@@ -26,6 +23,17 @@ export const useAuthStore = defineStore('auth', {
         return authData
       } catch (err) {
         console.error('Google login failed:', err)
+        throw err
+      }
+    },
+    async loginWithPassword(email: string, password: string) {
+      try {
+        const authData = await pb.collection('users').authWithPassword(email, password)
+        this.user = authData.record
+        this.token = pb.authStore.token
+        router.push('/recipes')
+        return authData
+      } catch (err) {
         throw err
       }
     },
