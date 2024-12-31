@@ -10,7 +10,10 @@ import (
 
 func main() {
 	app := pocketbase.New()
-
+	app.OnRecordAuthWithOAuth2Request().BindFunc(func(e *core.RecordAuthWithOAuth2RequestEvent) error {
+		e.Response.Header().Set("Cross-Origin-Opener-Policy", "same-origin-allow-popups")
+		return e.Next()
+	})
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		se.Router.POST("/api/recipe", handleRecipe).Bind(apis.RequireAuth())
 		return se.Next()
