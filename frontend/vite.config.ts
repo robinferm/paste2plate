@@ -34,6 +34,11 @@ export default defineConfig(({ command, mode }) => {
               type: 'image/png',
               form_factor: 'wide',
             },
+            {
+              src: '/pwa/pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
           ],
         },
       }),
