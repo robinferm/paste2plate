@@ -22,14 +22,14 @@ export default defineConfig(({ command, mode }) => {
           theme_color: '#ffffff',
           icons: [
             {
-              src: '/src/assets/pwa-192x192.png',
+              src: '/pwa/pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
             },
           ],
           screenshots: [
             {
-              src: '/src/assets/vue-wide.png',
+              src: '/pwa/vue-wide.png',
               sizes: '2048x1766',
               type: 'image/png',
               form_factor: 'wide',
