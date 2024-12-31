@@ -26,6 +26,11 @@ export default defineConfig(({ command, mode }) => {
               sizes: '192x192',
               type: 'image/png',
             },
+            {
+              src: '/pwa/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
           ],
           screenshots: [
             {
