@@ -43,12 +43,18 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
     },
     isLoggedIn() {
-      return this.user !== null
+      return this.token !== null
     },
     async authRefresh() {
-      const authData = await pb.collection('users').authRefresh()
-      this.user = authData.record
-      this.token = pb.authStore.token
+      try {
+        const authData = await pb.collection('users').authRefresh()
+        this.user = authData.record
+        this.token = pb.authStore.token
+      } catch {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        localStorage.removeItem('pocketbase_auth')
+      }
     },
   },
 })

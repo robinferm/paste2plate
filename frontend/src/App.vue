@@ -10,6 +10,7 @@ router.beforeEach(async (to) => {
   }
 
   if (authStore.isLoggedIn() && to.name === 'Home') {
+    console.log(authStore.isLoggedIn)
     return { name: 'RecipeList' }
   }
 
