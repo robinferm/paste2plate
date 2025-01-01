@@ -75,7 +75,13 @@ func handleRecipe(e *core.RequestEvent) error {
 
 	recipeUrl := requestBody.URL
 
-	recipe := scrape(recipeUrl)
+	recipe := recipe{}
+	switch {
+	case strings.Contains(recipeUrl, "ica.se"):
+		recipe = scrape(recipeUrl)
+	case strings.Contains(recipeUrl, "arla.se"):
+		recipe = scrapeArla(recipeUrl)
+	}
 
 	return e.JSON(http.StatusOK, recipe)
 }
@@ -109,7 +115,6 @@ func scrape(url string) recipe {
 	c.OnHTML("img.recipe-header__image", func(e *colly.HTMLElement) {
 		if recipe.ImageUrl == "" {
 			recipe.ImageUrl = e.Attr("src")
-			fmt.Println(recipe.ImageUrl)
 		}
 	})
 
@@ -118,5 +123,42 @@ func scrape(url string) recipe {
 		log.Fatal(err)
 	}
 
+	return recipe
+}
+
+func scrapeArla(url string) recipe {
+	c := colly.NewCollector()
+
+	recipe := recipe{}
+
+	c.OnHTML("h1", func(e *colly.HTMLElement) {
+		recipe.Title = e.Text
+	})
+	c.OnHTML(".c-recipe__ingredients-group > table > tbody > tr", func(e *colly.HTMLElement) {
+		amount := e.ChildText("td")
+		name := e.ChildText("th > div")
+
+		ingredient := ingredient{
+			Name:   name,
+			Amount: amount,
+		}
+		recipe.Ingredients = append(recipe.Ingredients, ingredient)
+	})
+
+	c.OnHTML("li.c-recipe__instructions-step", func(e *colly.HTMLElement) {
+		recipe.Steps = append(recipe.Steps, e.Text)
+	})
+
+	c.OnHTML(".c-recipe__image-ratio-holder > img:nth-child(4)", func(e *colly.HTMLElement) {
+		if recipe.ImageUrl == "" {
+			recipe.ImageUrl = e.Attr("src")
+		}
+	})
+
+	err := c.Visit(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(recipe)
 	return recipe
 }
