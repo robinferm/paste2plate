@@ -16,7 +16,11 @@
     <div class="divider"></div>
     <h2 class="text-2xl mb-2">Steps</h2>
     <ol class="flex flex-col gap-6">
-      <li class="flex gap-2" v-for="(instruction, index) in recipe.steps" :key="instruction">
+      <li
+        :class="`card card-bordere p-3 flex flex-row gap-2 ${index % 2 === 0 ? 'dark:bg-gray-80 bg-gray-300' : ''}`"
+        v-for="(instruction, index) in recipe.steps"
+        :key="instruction"
+      >
         <div>{{ index + 1 }}.</div>
         <div>{{ instruction }}</div>
       </li>
